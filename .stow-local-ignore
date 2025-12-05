@@ -1,0 +1,16 @@
+# Documentation - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
+
+# MacOS file common in many folders
+.DS_Store
+
+# common git repo files
+^/README.*
+^/LICENSE.*
+.github/
+sonar-project.properties
+
+# homebrew
+Brewfile
+
+# stow configs for this repo
+.stowrc

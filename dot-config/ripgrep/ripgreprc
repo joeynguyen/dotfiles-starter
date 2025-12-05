@@ -1,0 +1,26 @@
+# Dependency directories
+node_modules/
+vendor/
+target/
+
+# Compiled or generated files
+*.pyc
+*.o
+*.class
+/bin/
+/dist/
+__pycache__/
+
+# Log and temporary files
+*.log
+*.tmp
+
+# System/OS specific files
+.DS_Store # MacOS
+Thumbs.db # Windows
+
+# IDE/Editor specific files
+.idea/
+.vscode/
+*.swp
+
