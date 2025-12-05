@@ -1,0 +1,69 @@
+# RELOADING THE CONFIGURATION
+# The configuration can be reloaded at runtime by pressing CMD+SHIFT+, (macOS) or CTRL+SHIFT+, (Linux).
+# These are the default keybindings, but it is possible to define your own via the reload_config action.
+
+# Comments start with a `#` and are only valid on their own line.
+
+# The syntax is "key = value". The whitespace around the equal sign doesn't matter.
+# Values can be quoted or unquoted. font-family = "JetBrains Mono" is the same as font-family = JetBrains Mono.
+
+# Empty values reset the configuration to the default value
+font-family = JetBrains Mono
+font-size = 19
+cursor-invert-fg-bg = true
+
+# TEST LIGATURES (from Fira Code - https://github.com/tonsky/FiraCode?tab=readme-ov-file#whats-in-the-box):
+# -- Arithmetic: ++ -- /= && || ||=
+# -- Scope: -> => :: __
+# -- Equality: == === != !==
+# -- Comparison: <= >= <=>
+# -- JavaScript: ?. !! **
+# -- HTML: <!-- </> </ />
+# -- Java: <> <~>
+# -- Go: :=
+# -- Kotlin: ?. ?: ..
+# -- Others: <=> <<= >>=
+# -- Arrows: --> <- -> ~~>
+
+# turn off ligatures
+# font-feature = -calt, -liga, -dlig
+
+# Every configuration key is a valid CLI flag when launching Ghostty from the command-line. For example, the background key can be set with ghostty --background=282c34. Or the font-family key can be set with ghostty --font-family="JetBrains Mono".
+
+theme = Tomorrow Night Eighties
+# other ones to try
+# theme = AtelierSulphurpool
+# theme = Ultra Dark
+# theme = Ultra Violent
+
+# windows
+window-padding-color = background
+window-decoration = false
+window-padding-x = 2
+window-padding-y = 0
+window-padding-balance = true
+# macos-window-shadow = false
+
+# OS-specific settings
+
+## MacOS
+macos-option-as-alt = true
+macos-non-native-fullscreen = true
+
+# the below are useful if you use tmux instead of Ghostty for tab/window management
+# windows won't have native decorations, i.e. titlebar and borders. On macOS this also disables tabs and tab overview.
+# macos-titlebar-style = hidden
+# macos-titlebar-proxy-icon = hidden
+
+# Keybindings
+# https://ghostty.org/docs/config/keybind
+
+# The CLI command list-keybinds can be used to list all the available keybinds for Ghostty. You can run this to see the default ones:
+# ghostty +list-keybinds --default
+
+# uncomment the below keybinds if you want to use them
+# Command+Shift+R - update Ghostty using the updated settings in this file
+# keybind = super+shift+r=reload_config
+# Command+Shift+F - toggle full screen
+# keybind = super+shift+f=toggle_fullscreen
+
