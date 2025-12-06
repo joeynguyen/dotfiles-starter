@@ -1,6 +1,8 @@
 # Run this command to install apps inside this file:
 # brew bundle
 
+# CLI apps
+
 brew "asdf" # version manager for language runtimes like Node.js
 brew "bat" # `cat` with code syntax highlighting
 brew "btop" # better `top`
@@ -31,3 +33,7 @@ brew "zoxide" # Utility to keep track of the most frequently used directories
 brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
+
+# GUI apps
+
+brew "ghostty"
