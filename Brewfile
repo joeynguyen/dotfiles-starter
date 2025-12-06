@@ -36,4 +36,6 @@ brew "zsh-syntax-highlighting"
 
 # GUI apps
 
-brew "ghostty"
+cask_args appdir: "/Applications", require_sha: true
+
+cask "ghostty"
