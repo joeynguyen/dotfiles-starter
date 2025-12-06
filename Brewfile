@@ -1,7 +1,4 @@
-# Need to run this brew command on the commmand line before being able to use this Brewfile:
-# brew tap "homebrew/bundle"
-
-# After tapping that package, run this command to install apps inside this file:
+# Run this command to install apps inside this file:
 # brew bundle
 
 brew "asdf" # version manager for language runtimes like Node.js

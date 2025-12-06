@@ -7,8 +7,7 @@ A zsh focused dotfiles starter template
 ### Installing CLI applications
 
 1. [Install Brew](https://brew.sh/)
-2. Run `brew tap "homebrew/bundle"`
-3. From the root of this repo, run `brew bundle`
+2. From the root of this repo, run `brew bundle`
    - this will install all apps listed in the **Brewfile** file
 
 ### Set up recommended Zsh and CLI app configurations
