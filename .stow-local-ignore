@@ -6,6 +6,7 @@
 # common git repo files
 ^/README.*
 ^/LICENSE.*
+.git/
 .github/
 sonar-project.properties
 
