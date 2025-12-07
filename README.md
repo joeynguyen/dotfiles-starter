@@ -1,6 +1,8 @@
 # dotfiles-starter
 
-A zsh focused dotfiles starter template
+A zsh-focused dotfiles starter template for MacOS, but lots of configurations are compatible with Linux.
+
+Linux support may be added in the future but no guarantees. Create a Pull Request if you want to help make it happen sooner.
 
 ## Getting started
 
