@@ -6,8 +6,9 @@
 # common git repo files
 ^/README.*
 ^/LICENSE.*
-.git/
-.github/
+.git
+.github
+.gitignore
 sonar-project.properties
 
 # homebrew
@@ -15,3 +16,6 @@ Brewfile
 
 # stow configs for this repo
 .stowrc
+
+# docs
+presentation-notes.md
