@@ -1,0 +1,48 @@
+,replace_text_recursively () {
+  if [[ $# -ne 2 ]]; then
+    echo "Usage: replace_text <search_text> <replacement_text>"
+    echo "Example: replace_text 'setSignUpFormPayload' 'setSignUpMultiFormState'"
+    return 1
+  fi
+
+  local search_text="$1"
+  local replacement_text="$2"
+
+  echo "Replacing '$search_text' with '$replacement_text' in all files..."
+
+  # Find all files containing the search text and replace it
+  # Exclude common directories we don't want to modify
+  local files_with_text
+  files_with_text=$(find . -type f \
+    -not -path "./.git/*" \
+    -not -path "./node_modules/*" \
+    -not -path "./.next/*" \
+    -not -path "./dist/*" \
+    -not -path "./build/*" \
+    -not -path "./.vscode/*" \
+    -not -path "./.idea/*" \
+    -exec grep -l "$search_text" {} \; 2>/dev/null)
+
+  local files_changed=0
+
+  if [[ -n "$files_with_text" ]]; then
+    while IFS= read -r file; do
+      if [[ -n "$file" ]]; then
+        echo "Updating: $file"
+
+        # Detect if we're on macOS or Linux for sed syntax
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          sed -i '' "s|$search_text|$replacement_text|g" "$file"
+        else
+          sed -i "s|$search_text|$replacement_text|g" "$file"
+        fi
+
+        ((files_changed++))
+      fi
+    done <<< "$files_with_text"
+
+    echo "Replacement complete. $files_changed files were updated."
+  else
+    echo "No files found containing '$search_text'."
+  fi
+}

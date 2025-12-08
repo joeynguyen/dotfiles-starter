@@ -1,0 +1,14 @@
+# need to install the `webp` package - `brew install webp`
+,webp_convert_directory() {
+
+  PARAMS=('-m 6 -q 70 -mt -af -progress')
+
+  if [ $# -ne 0 ]; then
+    PARAMS=$@;
+  fi
+
+  for FILE in $(pwd)/*.(jpg|jpeg|tif|tiff|png); do
+    cwebp -q 50 "$FILE" -o "${FILE%.*}.webp";
+  done
+}
+

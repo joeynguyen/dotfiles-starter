@@ -1,4 +1,4 @@
-# Documentation - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
+# Stow docs - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
 
 # MacOS file common in many folders
 .DS_Store
@@ -23,3 +23,4 @@ presentation-notes.md
 # zshrc-sourced files
 aliases
 shell-aliases
+shell-functions
