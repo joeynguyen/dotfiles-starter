@@ -252,8 +252,12 @@ bindkey -M viins '\e.' insert-last-word
 
 
 ### Source Additional Files ###
-# Load profile
+
+# TODO: this ~/.profile file isn't a zsh convention.  It was designed for: POSIX-compatible shells (sh, bash, dash).
+# Refactor this behavior or rename it to avoid confusion.
 source ~/.profile
+# refer to README.md on creating this secrets file and, IMPORTANTLY!, ensure it isn't committed to your dotfiles repo
+source ~/.my_env_secrets
 
 # enable Ghosty shell integration
 # if you're using the Ghostty terminal, uncomment the lines below

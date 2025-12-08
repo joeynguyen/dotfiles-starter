@@ -6,9 +6,6 @@
 # Load aliases
 source ${GIT_DOTFILES}/shell-aliases
 
-export NPM_TOKEN=""
-export GITHUB_TOKEN=""
-
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"

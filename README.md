@@ -6,15 +6,25 @@ Linux support may be added in the future but no guarantees. Create a Pull Reques
 
 ## Getting started
 
+First, fork this repo so you can start maintaining your own dotfiles repo.
+
 ### Installing CLI applications
 
 1. [Install Brew](https://brew.sh/)
-2. From the root of this repo, run `brew bundle`
-   - this will install all apps listed in the **Brewfile** file
+1. From the root of this repo, run `brew bundle`
+   - this will install all apps listed in the _Brewfile_ file
 
 ### Set up recommended Zsh and CLI app configurations
 
-1.  From the root of this repo, run `stow`
+1. Back up your _~/.zshrc_ file
+   - `mv ~/.zshrc ~/.zshrc-backup`
+1. Create a _~/.my-env-secrets_ file and copy over any secrets from your old _.zshrc_ that you don't want committed to git
+   - Manually copy the _my-env-secrets-example_ file from this directory to your `$HOME` directory
+   - `cp ./my-env-secrets-example ~/.my-env-secrets`
+1. In the _dot-zshrc_ file,
+   - update the `GIT_DOTFILES` variable to match the location of this folder on your computer
+   - copy any important settings from your _~/.zshrc_ backup file to _dot-zshrc_ in this folder
+1. From the root of this repo, run `stow .`
 
 ## CLI tools
 
