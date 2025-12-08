@@ -1,0 +1,42 @@
+# This file is optional and only exists to help with configuration organization.
+# All settings in this file can be moved to dot-zshrc and the line `source ~/.profile` can be removed subsequently.
+# The intention for this file is that it be used for user customizations where as dot-zshrc is meant for
+# zsh-specific settings.
+
+# Load aliases
+source ${GIT_DOTFILES}/shell-aliases
+
+export NPM_TOKEN=""
+export GITHUB_TOKEN=""
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists (different location)
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's cargo package manager's bin if it exists
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# set PATH so it includes user's go lang's package manager's bin if it exists
+if [ -d "$HOME/.local/go/bin" ] ; then
+    PATH="$HOME/.local/go/bin:$PATH"
+fi
+
+export GOPATH=$HOME/go
+# set PATH so it includes user's GOPATH's bin if it exists
+if [ -d "$GOPATH/bin" ] ; then
+    PATH="$GOPATH/bin:$PATH"
+fi
+
+export PATH
+
+# for fun, include ASCII art on startup. Uncomment the lines below for this to work.
+# cat ${GIT_DOTFILES}/[ASCII_ART_FILENAME_GOES_HERE]
+# echo # add blank line after ASCII and before prompt
