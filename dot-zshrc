@@ -1,0 +1,258 @@
+# Zinit-optimized zsh configuration
+
+# Enable profiling (comment out after testing)
+# zmodload zsh/zprof
+
+GIT_DOTFILES=~/git/dotfiles
+
+#####################################
+### History Configuration - START ###
+#####################################
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+HISTTIMEFORMAT="%Y-%m-%d %T "
+# history file location
+HISTFILE="$HOME/.zsh_history"
+# maximum number of history entries in memory
+HISTSIZE=100000
+# maximum number of history entries saved to the history file
+SAVEHIST=100000
+# don't share history between terminal windows
+unsetopt share_history
+# Append to ~/.zsh_history instead of overwriting it -- this stops terminals
+# from overwriting one another's histories.
+setopt INC_APPEND_HISTORY
+# Setting the extended_history records the timestamp of each command in HISTFILE (along with the actual command)
+setopt EXTENDED_HISTORY
+# ensures all previous lines matching the current command is removed from history before the current command is saved
+setopt HIST_IGNORE_ALL_DUPS
+# ignore any command that begins with a space
+setopt HIST_IGNORE_SPACE
+# trim extra whitespace from each entry
+setopt HIST_REDUCE_BLANKS
+
+###################################
+### History Configuration - END ###
+###################################
+
+##################################
+### brew Configuration - START ###
+##################################
+
+# Cache brew prefix to avoid subprocess call on every startup
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
+
+if [[ -f "/opt/homebrew/bin/brew" ]] then
+  # exports environment variables needed for brew to work
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [ -d "$HOMEBREW_PREFIX/bin/fzf" ] ; then
+  export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
+fi
+if [ -d "$HOMEBREW_PREFIX/bin/rg" ] ; then
+  export FZF_DEFAULT_COMMAND='rg'
+fi
+if [ -d "$HOMEBREW_PREFIX/bin/stern" ] ; then
+    source <(stern --completion=zsh)
+fi
+
+################################
+### brew Configuration - END ###
+################################
+
+
+############################################
+### Zinit Installation and Setup - START ###
+############################################
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit if it hasn't been installed
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Load Zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Completion performance optimizations
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+### Zinit Plugin Loading ###
+
+# Load essential libraries that other plugins depend on
+# zinit snippet OMZL::clipboard.zsh
+# zinit snippet OMZL::completion.zsh
+# zinit snippet OMZL::history.zsh
+# zinit snippet OMZL::key-bindings.zsh
+
+# Load prompt-critical plugins immediately
+zinit light "Aloxaf/fzf-tab"
+zinit light "zsh-users/zsh-autosuggestions"
+zinit light "zsh-users/zsh-completions"
+zinit light "jeffreytse/zsh-vi-mode"
+
+# Load these plugins with turbo mode (after prompt appears) for faster startup
+zinit wait lucid for \
+    OMZP::aliases \
+    OMZP::colored-man-pages \
+    OMZP::copyfile \
+    OMZP::copypath \
+    OMZP::extract \
+    OMZP::urltools
+
+# Enable completion system
+autoload -Uz compinit && compinit
+
+# Make zsh autocomplete with up arrow
+# Combined the first two answers from this link - https://unix.stackexchange.com/questions/621606/zsh-completion-with-up-and-down-arrows
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey '^[[A' history-beginning-search-backward-end
+bindkey '^[[B' history-beginning-search-forward-end
+
+# replay all cached completions
+zinit cdreplay -q
+
+# Load asdf with turbo mode
+zinit wait lucid for \
+    OMZP::asdf
+
+# Load fzf plugin with turbo
+zinit wait lucid for \
+    OMZP::fzf
+
+# Conditional plugin loading - only if commands exist
+zinit wait lucid has'podman' for \
+    OMZP::podman
+
+_fix-omz-plugin() {
+    [[ -f ./._zinit/teleid ]] || return 1
+    local teleid="$(<./._zinit/teleid)"
+    local pluginid
+    for pluginid (${teleid#OMZ::plugins/} ${teleid#OMZP::}) {
+        [[ $pluginid != $teleid ]] && break
+    }
+    (($?)) && return 1
+    print "Fixing $teleid..."
+    git clone --quiet --no-checkout --depth=1 --filter=tree:0 https://github.com/ohmyzsh/ohmyzsh
+    cd ./ohmyzsh
+    git sparse-checkout set --no-cone /plugins/$pluginid
+    git checkout --quiet
+    cd ..
+    local file
+    for file (./ohmyzsh/plugins/$pluginid/*~(.gitignore|*.plugin.zsh)(D)) {
+        print "Copying ${file:t}..."
+        cp -R $file ./${file:t}
+    }
+    rm -rf ./ohmyzsh
+}
+
+# keybinding to trigger 'wd browse', which uses fzf to let you fuzzy search through all your warp points
+# overriding wd's default binding of Ctrl-b which conflicts with default 'cursor-left' navigation
+FZF_WD_BINDKEY='^~'
+
+# fix Zinit integration with installing some oh-my-zsh plugins
+zinit wait lucid atpull"%atclone" atclone"_fix-omz-plugin" atload"bindkey \${FZF_WD_BINDKEY:-'^B'} wd_browse_widget" for OMZ::plugins/wd
+
+# Load syntax highlighting last and with turbo
+zinit wait lucid for \
+    "zsh-users/zsh-syntax-highlighting"
+
+##########################################
+### Zinit Installation and Setup - END ###
+##########################################
+
+
+###########################################
+### Lazy Loading External Tools - START ###
+###########################################
+
+# 1️⃣Lazy load kubectl completion
+if ! type __start_kubectl >/dev/null 2>&1; then
+  # Pull the completion definitions from kubectl itself
+  source <(kubectl completion zsh)
+fi
+
+# 2️⃣ Define a wrapper that runs kubecolor and forwards argument to kubectl
+kubectl() {
+  # Run the real binary (bypassing this function) through kubecolor
+  command kubecolor "$@"
+}
+
+# Make sure the completion system knows the wrapper is a kubectl‑like command
+# Re‑associate the already‑loaded completion definitions with the
+# wrapper function.  The `_kubectl` helper is what the completion
+# script registers for the `kubectl` command.
+compdef _kubectl kubectl
+
+
+# add fzf shell integration with caching (check if fzf functions already exist)
+if ! command -v __fzf_defaults >/dev/null 2>&1; then
+  eval "$(fzf --zsh)"
+fi
+
+# Initialize zoxide with caching (check if zoxide functions already exist)
+if ! command -v __zoxide_z >/dev/null 2>&1; then
+  eval "$(zoxide init --cmd cd zsh)"
+fi
+
+# Initialize oh-my-posh (doesn't work with with lazy loading)
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/ohmyposh.toml)"
+
+#########################################
+### Lazy Loading External Tools - END ###
+#########################################
+
+
+#####################################
+### Environment Variables - START ###
+#####################################
+export HOSTNAME=$(hostname -s)
+
+###################################
+### Environment Variables - END ###
+###################################
+
+
+############################
+### Key Bindings - START ###
+############################
+bindkey \^U backward-kill-line # Makes Ctrl-u in ZSH to act the same as Bash
+bindkey '^ ' autosuggest-accept # use ctrl+Space for zsh-autosuggest
+
+### zsh-vi-mode ###
+# Fix for bug where the built-in Alt+. ("append last argument" feature) doesn't work
+function append-last-word { ((++CURSOR)); zle insert-last-word; }
+zle -N append-last-word
+bindkey -M vicmd '\e.' append-last-word
+bindkey -M viins '\e.' insert-last-word
+
+##########################
+### Key Bindings - END ###
+##########################
+
+
+### Source Additional Files ###
+# Load profile and aliases
+source ~/.profile
+source ${GIT_DOTFILES}/aliases-mac
+source ${GIT_DOTFILES}/aliases/ohmyzsh
+
+
+# Show startup profiling (comment out after optimization)
+# zprof
