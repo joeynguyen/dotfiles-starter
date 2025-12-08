@@ -254,5 +254,12 @@ source ${GIT_DOTFILES}/aliases-mac
 source ${GIT_DOTFILES}/aliases/ohmyzsh
 
 
+# enable Ghosty shell integration
+# if you're using the Ghostty terminal, uncomment the lines below
+# if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+#     builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+# fi
+
+
 # Show startup profiling (comment out after optimization)
 # zprof
