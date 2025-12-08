@@ -222,6 +222,8 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/ohmyposh.toml)"
 #####################################
 ### Environment Variables - START ###
 #####################################
+
+# TODO, move this to a separate zsh-env file and source it
 export HOSTNAME=$(hostname -s)
 
 ###################################
@@ -232,6 +234,8 @@ export HOSTNAME=$(hostname -s)
 ############################
 ### Key Bindings - START ###
 ############################
+
+# TODO, move this to a separate zsh-keybindings file and source it
 bindkey \^U backward-kill-line # Makes Ctrl-u in ZSH to act the same as Bash
 bindkey '^ ' autosuggest-accept # use ctrl+Space for zsh-autosuggest
 
@@ -248,11 +252,8 @@ bindkey -M viins '\e.' insert-last-word
 
 
 ### Source Additional Files ###
-# Load profile and aliases
+# Load profile
 source ~/.profile
-source ${GIT_DOTFILES}/aliases-mac
-source ${GIT_DOTFILES}/aliases/ohmyzsh
-
 
 # enable Ghosty shell integration
 # if you're using the Ghostty terminal, uncomment the lines below
