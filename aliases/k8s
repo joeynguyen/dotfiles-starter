@@ -1,0 +1,11 @@
+
+# connect to K8s pod in interactive mode
+,kx() {
+ kubectl exec -it $1 -- bash
+}
+alias kx=,kx
+
+alias 9='k9s'
+alias k='kubectl'
+alias wp='watch "kubectl get pods"'
+

@@ -1,0 +1,93 @@
+# source all files in children directories
+for f in ${GIT_DOTFILES}/shell-functions/*; do
+  if [[ -f "$f" && -r "$f" ]]; then
+    source "$f"
+  fi
+done
+
+for f in ${GIT_DOTFILES}/aliases/*; do
+  if [[ -f "$f" && -r "$f" ]]; then
+    source "$f"
+  fi
+done
+
+### optionally, load OS-specific aliases ###
+
+# Linux
+# source ${GIT_DOTFILES}/shell-aliases-linux
+
+# MacOS
+# source ${GIT_DOTFILES}/shell-aliases-mac
+
+# make zsh `history [number]` behave like in bash
+history() {
+  if [[ "$1" =~ '^[0-9]+$' ]]; then
+    fc -l -$1
+  else
+    builtin history "$@"
+  fi
+}
+alias h=history
+
+alias nv='nvim'
+# alias vi='nvim'
+# alias vim='nvim'
+alias s=',seshSwitch'
+alias py='python3'
+alias python='python3'
+
+# yazi - files explorer (needs to be installed with brew)
+alias y=yazi
+alias fe=yazi
+alias files=yazi
+
+alias ,cls="clear; printf '\e[3J'" # runs clear and also removes scrollback as well
+alias cls=,cls
+alias ,cpr='cp -R'
+alias cpr=,cpr
+alias rm='rm -i'
+
+alias ,reload="source ~/.zshrc"
+alias reload=,reload
+alias ,myip='ifconfig | grep "inet 10.0"'
+alias myip=,myip
+#alias ,myip='ifconfig | grep "inet 192"'
+
+# Podman
+alias pm=podman
+alias ,podman_datetime_reset='podman machine ssh "sudo hwclock -s"'
+
+alias py3='python3'
+alias ,simpleserver='python3 -m http.server'
+alias simpleserver=,simpleserver
+
+alias ,disk_space='ncdu'
+alias disk_space=,disk_space
+
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
+
+alias ,zshrc='${=EDITOR} ~/.zshrc' # Quick access to the ~/.zshrc file
+alias zshrc=,zshrc
+alias ,rename_multiple_files='vimv'
+
+alias ,qmk_setup_joey_kyria='qmk setup joeynguyen/qmk_firmware'
+alias ,qmk_compile_joey_kyria='qmk compile -kb splitkb/kyria/rev1 -km joeynguyen'
+alias ,qmk_flash_joey_kyria='qmk flash -kb kyria -km joeynguyen -bl dfu'
+
+,mkdircd() {
+    # $* mean
+    mkdir $* && cd $_
+    # would also work: mkdir $1 && cd $_
+    # would also work: mkdir $1 && cd $1
+}
+alias take=,mkdircd # inspired by ohmyzsh's take
+# alias mkdircd=,mkdircd
+alias mkcd=,mkdircd
+
+,seshSwitch() {
+  sesh connect "$(
+    sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --header 'sesh' --height 50 --prompt='⚡'
+  )"
+}
+

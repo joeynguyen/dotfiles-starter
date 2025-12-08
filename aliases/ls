@@ -1,0 +1,20 @@
+# eza
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza'
+  alias lsa='eza -a'
+  alias lsal='eza -alh'
+  alias lsg='eza --git-ignore'
+  alias l='eza -alh --group-directories-first' # lists everything with directories first
+  alias ll='eza -alh --group-directories-first --icons=always' # lists everything with directories first
+  alias ld='eza -lD --icons=always' # lists only directories (no files)
+  alias lf='eza -lf --icons=always' # lists only files (no directories)
+  alias lh='eza -dlh .* --group-directories-first --icons=always' # lists only hidden files and directories
+  alias lt='eza -alh --sort=modified' # lists everything sorted by time updated
+  alias lst='eza --tree -I node_modules --icons=auto'
+  alias lstg='eza --tree --git-ignore --icons=auto'
+  alias ,tree='eza --tree -I node_modules --icons=auto'
+  alias ,treegit='eza --tree --git-ignore --icons=auto'
+  alias tree=,tree
+  alias treegit=,treegit
+fi
+

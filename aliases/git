@@ -1,0 +1,208 @@
+alias ,git_branch_name='git rev-parse --abbrev-ref HEAD'
+alias ,git_show_last_commit="git show --stat --patch -- :/ ':!package-lock.json' --pretty=format:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(bold blue)<%an>%Creset'"
+alias ,git_delete_local_branch='git branch -D $1'
+alias ,git_delete_remote_branch='git push origin --delete $1'
+alias ,git_refresh_remote_branches='git remote update origin --prune'
+alias ,git_get_remote_url='git config --get remote.origin.url'
+alias ,git_set_remote_url='git remote set-url origin $1'
+alias ,git_log_deleted_code='git log -p --all -S $1'
+alias ,git_rollback_one_commit='git reset HEAD~1'
+alias ,git_undo_unpushed_commit='git reset --soft HEAD~'
+alias ,git_redo_unpushed_commit='git commit -c ORIG_HEAD --no-edit'
+alias ,git_rebase_last_two_commits='git rebase -i HEAD~2'
+
+alias g='git'
+alias gr='git reset'
+alias gs='git status'
+alias ga='git add'
+alias gb='git branch'
+alias gbr='git branch --remote'
+alias gca='git commit --amend'
+alias gcam='git commit -am'
+alias gcmsg='git commit -m'
+alias gcsmg='gcmsg'
+alias gcom='git commit'
+alias gcomne='git commit --no-edit'
+alias gco='git checkout'
+alias gcomas='git checkout master'
+alias gcomain='git checkout main'
+alias gcomasgl='git checkout master && git pull'
+alias gcodev='git checkout develop'
+alias gcodevgl='git checkout develop && git pull'
+alias gd="git diff --diff-filter=M ':(exclude)package-lock.json' ':(exclude)yarn.lock'"
+alias gds='git diff --staged'
+alias gdst='git diff --staged'
+alias gdp='git diff package.json'
+alias gdpl='git diff package-lock.json'
+alias gl='git log'
+alias glog='git log'
+alias glf='git log --follow'
+alias gmergemain='git merge main'
+alias gmergemaster='git merge master'
+alias gpl='git pull'
+alias gpull='git pull'
+alias gp='git push -u'
+alias gpush='git push -u'
+alias gph='git push -u'
+alias gpushtoremote='git push -u origin $1'
+alias gpush_master_to_origin='git push -u origin master'
+alias gcl=,gitclone
+alias gclone=,gitclone
+alias gsh='git stash'
+alias gs='git status'
+alias gst='git status'
+alias gstatus='git status'
+alias gstash='git stash'
+alias gshp='git stash pop'
+alias gpop='git stash pop'
+alias pop='git stash pop'
+alias grh='git reset --hard'
+alias gurl='open $(git config remote.origin.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/tree/$(git symbolic-ref --quiet --short HEAD )/$(git rev-parse --show-prefix)'
+
+# Github - create the Pull Request URL for your current directory's branch (base branch defaults to main)
+,github_create_pull_request() {
+  github_url=`git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/'`;
+  branch_name=`git symbolic-ref HEAD | cut -d"/" -f 3,4`;
+  pr_url=$github_url"/compare/main..."$branch_name
+  open $pr_url;
+}
+
+,git_create_branch_and_push() {
+  git checkout -b $1 && git push -u origin $1
+}
+
+,git_branch_rename_old_new() {
+  git checkout $1 &&
+  git branch -m $2
+}
+
+,git_branch_rename_old_new_and_push() {
+  git checkout $1 &&
+  git branch -m $2 &&
+  git push -u origin $2 &&
+  git push origin :$1
+}
+# clone a repo and cd into it
+,gitclone() {
+  git clone "$1" && cd "$(basename "$_" .git)" || return;
+}
+alias gitclone=,gitclone
+
+# git log a file that existed at one point but not anymore
+,git_log_deleted_filepath() {
+  git log --all --full-history -- $1
+}
+
+,git_repos_update_children() {
+  for dir in ./*/
+  do
+    cd ${dir}
+    pwd
+    git status -sb 2
+    # check if exit status of above was 0, indicating we're in a git repo
+    [ $(echo $?) -eq 0 ] && echo "Updating ${dir%*/}..." && git pull
+    cd ..
+  done
+}
+
+,git_repos_check_children() {
+  for dir in ./*/
+  do
+    cd ${dir}
+    pwd
+    git status -sb 2
+    # check if exit status of above was 0, indicating we're in a git repo
+    [ $(echo $?) -eq 0 ]
+    cd ..
+  done
+}
+
+,git_browser_url() {
+  # Get the remote URL from the Git repository
+  remote_url=$(git remote get-url origin);
+
+  if [ -z "$remote_url" ]; then
+    echo "No remote URL found. Please check if this is a Git repository.";
+    return 1;
+  fi;
+
+  # Convert the Git URL to the browser URL (GitHub, GitLab, etc.)
+  if [[ "$remote_url" =~ github.com ]]; then
+    browser_url="https://github.com/$(echo "$remote_url" | sed 's/.*github.com[:\/]\(.*\)\.git/\1/')";
+  elif [[ "$remote_url" =~ gitlab.com ]]; then
+    browser_url="https://gitlab.com/$(echo "$remote_url" | sed 's/.*gitlab.com[:\/]\(.*\)\.git/\1/')";
+  else
+    echo "Unsupported remote URL format. Cannot extract browser URL.";
+    return 1;
+  fi;
+
+  # Output the browser URL
+  echo "Browser URL: $browser_url"
+
+  # Ask the user if they want to open the URL in their browser
+  read -r "choice?Do you want to open this URL in your browser? (y/n): "
+
+  case "$choice" in
+    [Yy]*)
+      # Open the URL in the default browser
+      if command -v xdg-open &> /dev/null; then
+        xdg-open "$browser_url"  # Linux
+      elif command -v open &> /dev/null; then
+        open "$browser_url"  # macOS
+      else
+        echo "Unable to open the browser. Please open the URL manually."
+      fi
+      ;;
+    [Nn]*)
+      echo "Okay, not opening the URL."
+      ;;
+    *)
+      echo "Invalid choice. Please answer 'y' or 'n'."
+      ;;
+  esac
+}
+
+,git_browser_url() {
+  # Get the remote URL from the Git repository
+  remote_url=$(git remote get-url origin);
+
+  if [ -z "$remote_url" ]; then
+    echo "No remote URL found. Please check if this is a Git repository.";
+    return 1;
+  fi;
+
+  # Convert the Git URL to the browser URL (GitHub, GitLab, etc.)
+  if [[ "$remote_url" =~ github.com ]]; then
+    browser_url="https://github.com/$(echo "$remote_url" | sed 's/.*github.com[:\/]\(.*\)\.git/\1/')";
+  elif [[ "$remote_url" =~ gitlab.com ]]; then
+    browser_url="https://gitlab.com/$(echo "$remote_url" | sed 's/.*gitlab.com[:\/]\(.*\)\.git/\1/')";
+  else
+    echo "Unsupported remote URL format. Cannot extract browser URL.";
+    return 1;
+  fi;
+
+  # Output the browser URL
+  echo "Browser URL: $browser_url"
+
+  # Ask the user if they want to open the URL in their browser
+  read -r "choice?Do you want to open this URL in your browser? (y/n): "
+
+  case "$choice" in
+    [Yy]*)
+      # Open the URL in the default browser
+      if command -v xdg-open &> /dev/null; then
+        xdg-open "$browser_url"  # Linux
+      elif command -v open &> /dev/null; then
+        open "$browser_url"  # macOS
+      else
+        echo "Unable to open the browser. Please open the URL manually."
+      fi
+      ;;
+    [Nn]*)
+      echo "Okay, not opening the URL."
+      ;;
+    *)
+      echo "Invalid choice. Please answer 'y' or 'n'."
+      ;;
+  esac
+}

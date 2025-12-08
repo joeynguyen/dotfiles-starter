@@ -1,0 +1,25 @@
+# connect to Docker container in interactive mode
+,dx() {
+  docker exec -it $1 bash
+}
+alias dx=,dx
+
+alias ,dexec=,dexec
+alias dexec=,dexec
+
+alias d='docker'
+# alias ,ds='docker stats'
+# alias ds='docker stats'
+# alias ,dc='docker-compose'
+# alias dc='docker-compose'
+# alias ,dcd='docker-compose down'
+# alias dcd='docker-compose down'
+# alias ,dcu='docker-compose up'
+# alias dcu='docker-compose up'
+# alias ,dcb='docker-compose build'
+# alias dcb='docker-compose build'
+# alias ,dcr='docker-compose rm'
+# alias dcr='docker-compose rm'
+# alias ,dcud='docker-compose -f docker-compose.debug.yml up'
+# alias dcud='docker-compose -f docker-compose.debug.yml up'
+

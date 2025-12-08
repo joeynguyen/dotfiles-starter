@@ -19,3 +19,7 @@ Brewfile
 
 # docs
 presentation-notes.md
+
+# zshrc-sourced files
+aliases
+shell-aliases
