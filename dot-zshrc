@@ -209,6 +209,10 @@ fi
 # Initialize zoxide with caching (check if zoxide functions already exist)
 if ! command -v __zoxide_z >/dev/null 2>&1; then
   eval "$(zoxide init --cmd cd zsh)"
+
+  # check zoxide's ranking for various strings
+  alias ,cdq='zoxide query -i'
+  # alias cdq='zoxide query -i'
 fi
 
 # Initialize oh-my-posh (doesn't work with with lazy loading)
