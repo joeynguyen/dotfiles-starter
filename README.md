@@ -34,6 +34,11 @@ First, fork this repo so you can start maintaining your own dotfiles repo.
 
 ## aliases
 
+Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,git_browser_url`
+
+- easier to find when autocompleting using Tab
+- commas aren't special characters unlike other symbols ($, #, ?, etc.)
+
 ## Other productivity tips
 
 ### Copy text from images
