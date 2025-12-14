@@ -1,0 +1,118 @@
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+version = 3
+final_space = true
+
+[secondary_prompt]
+  template = '❯❯ '
+  foreground = 'magenta'
+  background = 'transparent'
+#
+# [transient_prompt]
+#   template = '❯ '
+#   background = 'transparent'
+#   foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}#5FFF3F{{end}}']
+#
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '<p:blue>{{ $segment := .Segments.Git }}{{ if $segment.Dir }}<b>{{ $segment.RepoName}}</b>{{if ne $segment.RepoName .Path}}{{ trimPrefix $segment.Dir .PWD }}{{ end }}{{ else }}<b>{{ path .Path .Location }}</b>{{ end }}</> '
+    foreground = 'blue'
+    background = 'transparent'
+    type = 'path'
+
+    [blocks.segments.properties]
+      style = 'folder'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{ .HEAD }}<yellow>{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+    foreground = 'p:grey'
+    background = 'transparent'
+    type = 'git'
+
+    [blocks.segments.properties]
+      branch_icon = ' '
+      commit_icon = '@'
+      fetch_status = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '  {{ .Full }} '
+    foreground = '#6CA35E'
+    powerline_symbol = ''
+    background = 'transparent'
+    type = 'node'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}({{ .Venv }}) {{ end }}{{ .Full }}{{ end }} '
+    foreground = '#100e23'
+    powerline_symbol = ''
+    background = '#906cff'
+    type = 'python'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = ' 󱈙 {{ .Full }} '
+    foreground = '#906cff'
+    powerline_symbol = ''
+    background = 'transparent'
+    type = 'kotlin'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '  {{ .Full }} '
+    foreground = '#7FD5EA'
+    powerline_symbol = ''
+    background = 'transparent'
+    type = 'go'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'right'
+
+  [[blocks.segments]]
+    style = 'powerline'
+    template = ' ⎈ {{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}} '
+    foreground = '#ebcc34'
+    powerline_symbol = ''
+    background = 'transparent'
+    type = 'kubectl'
+
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{ .FormattedMs }}'
+    foreground = 'yellow'
+    background = 'transparent'
+    type = 'executiontime'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '❯'
+    background = 'transparent'
+    type = 'text'
+    foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
+
+[[tooltips]]
+  style = 'plain'
+  template = ' ⎈ {{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}} '
+  foreground = 'yellow'
+  background = 'transparent'
+  type = 'kubectl'
+  tips = ['k', 'kubectl', 'helm', 'kubens', 'kubeseal', 'kubectx', 'oc', 'istioctl', 'kogito', 'kx', 'kns', 'k9s', 'telepresence', 'flux']
