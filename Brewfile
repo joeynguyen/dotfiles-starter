@@ -21,6 +21,7 @@ brew "kubecolor" # Colorize your kubectl output
 brew "kubectx" # Utility to manage and switch between `kubectl` contexts (package contains "kubens" too)
 brew "ncdu" # Disk space analyzer
 brew "noti" # Monitor a process and trigger a banner notification, run `tldr noti` for usage examples
+brew "jandedobbeleer/oh-my-posh/oh-my-posh" # customizable and fast prompt theme engine for any shell
 brew "ripgrep" # Faster alternative to `grep` with code highlighting and other features, `tldr rg`
 brew "somo" # Shows open ports being used by services
 brew "stern" # Tail multiple pods and containers from Kubernetes,  `tldr stern`
