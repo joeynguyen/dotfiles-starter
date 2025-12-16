@@ -3,6 +3,9 @@
 
 # CLI apps
 
+# this may be required to install oh-my-posh
+# tap "jandedobbeleer/oh-my-posh"
+
 brew "asdf" # version manager for language runtimes like Node.js
 brew "bat" # `cat` with code syntax highlighting
 brew "btop" # better `top`
@@ -35,8 +38,8 @@ brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 
-# GUI apps
+# GUI apps - optional
 
-cask_args appdir: "/Applications", require_sha: true
-
-cask "ghostty"
+# cask_args appdir: "/Applications", require_sha: true
+#
+# cask "ghostty"
