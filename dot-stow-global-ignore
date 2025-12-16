@@ -1,3 +1,21 @@
 # Documentation - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
 
-# add files here that stow will ignore globally
+# Add files here that stow will ignore globally.
+# Comments and blank lines are allowed.
+
+\.\#.+       # CVS conflict files / emacs lock files
+\.cvsignore
+
+\.svn
+_darcs
+\.hg
+
+\.git
+\.gitignore
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING

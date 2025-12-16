@@ -1,9 +1,8 @@
 # Documentation - https://www.gnu.org/software/stow/manual/stow.html#Resource-Files
 
 # The target for this repo should be the user's home directory.
---target=$HOME # user's home ~ directory
+--target=~
 
 # For each file or folder whose name begins with ‘dot-’, replace the ‘dot-’ prefix in the name by a period ‘.’.
 # This is useful when Stow is used to manage collections of dotfiles, to avoid having a package directory full of hidden files.
 --dotfiles
-
