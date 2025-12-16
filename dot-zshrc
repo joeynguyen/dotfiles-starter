@@ -257,9 +257,9 @@ bindkey -M viins '\e.' insert-last-word
 
 ### Source Additional Files ###
 
-# TODO: this ~/.profile file isn't a zsh convention.  It was designed for: POSIX-compatible shells (sh, bash, dash).
-# Refactor this behavior or rename it to avoid confusion.
-source ~/.profile
+# Load aliases
+source ${GIT_DOTFILES}/shell-aliases
+
 # refer to README.md on creating this secrets file and, IMPORTANTLY!, ensure it isn't committed to your dotfiles repo
 source ~/.my-env-secrets
 
@@ -269,6 +269,11 @@ source ~/.my-env-secrets
 #     builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
 # fi
 
+### for fun, include ASCII art on startup ###
+
+# uncomment the lines below if you want to add ASCII art on new shell window startup
+# cat ${GIT_DOTFILES}/[ASCII_ART_FILENAME_GOES_HERE]
+# echo # add blank line after ASCII and before prompt
 
 # Show startup profiling (comment out after optimization)
 # zprof
