@@ -24,6 +24,8 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
 1. In the _dot-zshrc_ file,
    - update the `GIT_DOTFILES` variable to match the location of this folder on your computer
    - copy any important settings from your _~/.zshrc_ backup file to _dot-zshrc_ in this folder
+1. Check for potential `stow` conflicts:
+   - From the root of this repo, run `stow --simulate --verbose .`
 1. From the root of this repo, run `stow .`
 
 ## CLI tools
