@@ -21,6 +21,7 @@ Brewfile
 presentation-notes.md
 
 # zshrc-sourced files
+zsh-env-variables
 aliases
 shell-aliases
 shell-functions

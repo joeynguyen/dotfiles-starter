@@ -6,7 +6,7 @@ Linux support may be added in the future but no guarantees. Create a Pull Reques
 
 ## Getting started
 
-First, fork this repo so you can start maintaining your own dotfiles repo.
+First, fork this repo so you can start maintaining your own dotfiles repo, and name it `dotfiles`, not `dotfiles-starter`.
 
 ### Installing CLI applications
 

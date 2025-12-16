@@ -223,18 +223,6 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/ohmyposh.toml)"
 #########################################
 
 
-#####################################
-### Environment Variables - START ###
-#####################################
-
-# TODO, move this to a separate zsh-env file and source it
-export HOSTNAME=$(hostname -s)
-
-###################################
-### Environment Variables - END ###
-###################################
-
-
 ############################
 ### Key Bindings - START ###
 ############################
@@ -255,15 +243,15 @@ bindkey -M viins '\e.' insert-last-word
 ##########################
 
 
-### Source Additional Files ###
-
-# Load aliases
-source ${GIT_DOTFILES}/shell-aliases
-
+### Load environment variables ###
+source ${GIT_DOTFILES}/zsh-env-variables
 # refer to README.md on creating this secrets file and, IMPORTANTLY!, ensure it isn't committed to your dotfiles repo
 source ~/.my-env-secrets
 
-# enable Ghosty shell integration
+### Load aliases ###
+source ${GIT_DOTFILES}/shell-aliases
+
+### enable Ghosty shell integration ###
 # if you're using the Ghostty terminal, uncomment the lines below
 # if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
 #     builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
@@ -274,6 +262,7 @@ source ~/.my-env-secrets
 # uncomment the lines below if you want to add ASCII art on new shell window startup
 # cat ${GIT_DOTFILES}/[ASCII_ART_FILENAME_GOES_HERE]
 # echo # add blank line after ASCII and before prompt
+
 
 # Show startup profiling (comment out after optimization)
 # zprof
