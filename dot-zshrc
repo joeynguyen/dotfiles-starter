@@ -42,10 +42,6 @@ setopt HIST_REDUCE_BLANKS
 ### brew Configuration - START ###
 ##################################
 
-# Cache brew prefix to avoid subprocess call on every startup
-HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
-FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
-
 # export environment variables needed for brew to work
 # MacOS
 if [[ -f "/opt/homebrew/bin/brew" ]] then
@@ -55,6 +51,10 @@ fi
 if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+# Cache brew prefix to avoid subprocess call on every startup
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
 
 if [ -d "$HOMEBREW_PREFIX/bin/fzf" ] ; then
   export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
