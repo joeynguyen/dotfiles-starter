@@ -46,9 +46,14 @@ setopt HIST_REDUCE_BLANKS
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
 
+# export environment variables needed for brew to work
+# MacOS
 if [[ -f "/opt/homebrew/bin/brew" ]] then
-  # exports environment variables needed for brew to work
   eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+# Linux (tested on Ubuntu Server 24.04 LTS)
+if [[ -f "/opt/homebrew/bin/brew" ]] then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [ -d "$HOMEBREW_PREFIX/bin/fzf" ] ; then
