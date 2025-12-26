@@ -11,6 +11,7 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
 ### Installing CLI applications
 
 1. [Install Brew](https://brew.sh/)
+1. Follow the instructions provided at the completion of the Brew installation process for adding a line to your `~/.zshrc`. Also run the `eval "... shellenv)"` line in your current Terminal to start using `brew` right away.
 1. From the root of this repo, run `brew bundle`
    - this will install all apps listed in the _Brewfile_ file
 
@@ -27,6 +28,7 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
 1. Check for potential `stow` conflicts:
    - From the root of this repo, run `stow --simulate --verbose .`
 1. From the root of this repo, run `stow .`
+1. Exit your current shell session and reopen a new one. Zinit will install itself and you'll get all of the updated settings applied to your new shell.
 
 ## CLI tools
 
