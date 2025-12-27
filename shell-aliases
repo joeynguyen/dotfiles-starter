@@ -1,11 +1,11 @@
 # source all files in children directories
-for f in ${GIT_DOTFILES}/shell-functions/*; do
+for f in ${DOTFILES_GIT_DIR}/shell-functions/*; do
   if [[ -f "$f" && -r "$f" ]]; then
     source "$f"
   fi
 done
 
-for f in ${GIT_DOTFILES}/aliases/*; do
+for f in ${DOTFILES_GIT_DIR}/aliases/*; do
   if [[ -f "$f" && -r "$f" ]]; then
     source "$f"
   fi
@@ -14,10 +14,10 @@ done
 ### optionally, load OS-specific aliases ###
 
 # Linux
-# source ${GIT_DOTFILES}/shell-aliases-linux
+# source ${DOTFILES_GIT_DIR}/shell-aliases-linux
 
 # MacOS
-# source ${GIT_DOTFILES}/shell-aliases-mac
+# source ${DOTFILES_GIT_DIR}/shell-aliases-mac
 
 # make zsh `history [number]` behave like in bash
 history() {

@@ -3,7 +3,7 @@
 # Enable profiling (comment out after testing)
 # zmodload zsh/zprof
 
-GIT_DOTFILES=~/git/dotfiles
+DOTFILES_GIT_DIR=~/git/dotfiles
 
 #####################################
 ### History Configuration - START ###
@@ -249,12 +249,12 @@ bindkey -M viins '\e.' insert-last-word
 
 
 ### Load environment variables ###
-source ${GIT_DOTFILES}/zsh-env-variables
+source ${DOTFILES_GIT_DIR}/zsh-env-variables
 # refer to README.md on creating this secrets file and, IMPORTANTLY!, ensure it isn't committed to your dotfiles repo
 source ~/.my-env-secrets
 
 ### Load aliases ###
-source ${GIT_DOTFILES}/shell-aliases
+source ${DOTFILES_GIT_DIR}/shell-aliases
 
 ### enable Ghosty shell integration ###
 # if you're using the Ghostty terminal, uncomment the lines below
@@ -265,7 +265,7 @@ source ${GIT_DOTFILES}/shell-aliases
 ### for fun, include ASCII art on startup ###
 
 # uncomment the lines below if you want to add ASCII art on new shell window startup
-# cat ${GIT_DOTFILES}/[ASCII_ART_FILENAME_GOES_HERE]
+# cat ${DOTFILES_GIT_DIR}/[ASCII_ART_FILENAME_GOES_HERE]
 # echo # add blank line after ASCII and before prompt
 
 

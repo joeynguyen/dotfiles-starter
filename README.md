@@ -23,7 +23,7 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
    - Manually copy the _my-env-secrets-example_ file from this directory to your `$HOME` directory
    - `cp ./my-env-secrets-example ~/.my-env-secrets`
 1. In the _dot-zshrc_ file,
-   - update the `GIT_DOTFILES` variable to match the location of this folder on your computer
+   - update the `DOTFILES_GIT_DIR` variable to match the location of this folder on your computer
    - copy any important settings from your _~/.zshrc_ backup file to _dot-zshrc_ in this folder
 1. Check for potential `stow` conflicts:
    - From the root of this repo, run `stow --simulate --verbose .`
