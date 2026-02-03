@@ -6,7 +6,7 @@ Linux support may be added in the future but no guarantees. Create a Pull Reques
 
 ## Getting started
 
-First, fork this repo so you can start maintaining your own dotfiles repo, and name it `dotfiles`, not `dotfiles-starter`.
+First, fork this repo so you can start maintaining your own dotfiles repo, and name your fork `dotfiles`, not `dotfiles-starter`.
 
 ### Installing CLI applications
 
@@ -17,14 +17,14 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
 
 ### Set up recommended Zsh and CLI app configurations
 
-1. Back up your _~/.zshrc_ file
+1. Back up your current _~/.zshrc_ file
    - `mv ~/.zshrc ~/.zshrc-backup`
 1. Create a _~/.my-env-secrets_ file and copy over any secrets from your old _.zshrc_ that you don't want committed to git
    - Manually copy the _my-env-secrets-example_ file from this directory to your `$HOME` directory
-   - `cp ./my-env-secrets-example ~/.my-env-secrets`
+     - `cp ./my-env-secrets-example ~/.my-env-secrets`
 1. In the _dot-zshrc_ file,
    - update the `DOTFILES_GIT_DIR` variable to match the location of this folder on your computer
-   - copy any important settings from your _~/.zshrc_ backup file to _dot-zshrc_ in this folder
+   - copy any important settings from your _~/.zshrc-backup_ file to _dot-zshrc_ in this folder
 1. Check for potential `stow` conflicts:
    - From the root of this repo, run `stow --simulate --verbose .`
 1. From the root of this repo, run `stow .`
@@ -34,14 +34,33 @@ First, fork this repo so you can start maintaining your own dotfiles repo, and n
 
 ### fzf
 
-`<Ctrl-T>` - opens a typeahead that can filter through directories and filenames under the current directory and pastes the selection into the current command prompt. Can be useful for a command like `git add [PATH_TO_FILE_OR_FOLDER]`
+`<Ctrl-T>` - opens a typeahead that can filter through directories and filenames under the current directory and pastes the selection into the current command prompt - can be useful for `git add [PATH_TO_FILE]` operations after doing a `git status` to see which files have changed
+
+### zoxide
+
+Replace `cd` with `zoxide`
+
+`cdi`/`cdq` for interactive query
+
+### wd
+
+warp directory - bookmark directories
 
 ## aliases
 
-Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,git_browser_url`
+Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,git_browser_url`.
 
 - easier to find when autocompleting using Tab
 - commas aren't special characters unlike other symbols ($, #, ?, etc.)
+
+## Ghostty
+
+```sh
+ghostty --help
+ghostty +list-themes
+ghostty +list-keybinds
+ghostty +list-actions
+```
 
 ## Other productivity tips
 
@@ -51,10 +70,8 @@ Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,gi
 
 ### Clipboard history setup
 
-### Other tips
-
-#### Chrome Extensions
+### Chrome Extensions
 
 1. Vimium
 
-#### Screenshot text copy
+### Other tips
