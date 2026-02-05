@@ -23,7 +23,6 @@
 - <kbd>Ctrl+f</kbd> - move one character forward
 - <kbd>Ctrl+a</kbd> - move the cursor to the beginning of the line
 - <kbd>Ctrl+e</kbd> - move the cursor to the end of the line
-- <kbd>Ctrl+xx</kbd> - move the cursor between its current position and the beginning of the line
 
 ## History
 
