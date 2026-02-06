@@ -3,6 +3,12 @@
 # Enable profiling (comment out after testing)
 # zmodload zsh/zprof
 
+### enable Ghostty shell integration ###
+# if you're using the Ghostty terminal, uncomment the lines below
+# if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+#     builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+# fi
+
 DOTFILES_GIT_DIR=~/git/dotfiles
 
 #####################################
@@ -255,12 +261,6 @@ source ~/.my-env-secrets
 
 ### Load aliases ###
 source ${DOTFILES_GIT_DIR}/shell-aliases
-
-### enable Ghosty shell integration ###
-# if you're using the Ghostty terminal, uncomment the lines below
-# if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
-#     builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
-# fi
 
 ### for fun, include ASCII art on startup ###
 
