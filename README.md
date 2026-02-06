@@ -55,6 +55,8 @@ Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,gi
 
 ## Ghostty
 
+<kbd>Command+Shift+P</kbd> - activate Command Palette
+
 ```sh
 ghostty --help
 ghostty +list-themes
