@@ -114,16 +114,19 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 zinit light "Aloxaf/fzf-tab"
 zinit light "zsh-users/zsh-autosuggestions"
 zinit light "zsh-users/zsh-completions"
-zinit light "jeffreytse/zsh-vi-mode"
+# uncomment the plugin below if you like Vim
+# zinit light "jeffreytse/zsh-vi-mode"
 
 # Load these plugins with turbo mode (after prompt appears) for faster startup
+# uncomment the ones you find useful after learning more about them
 zinit wait lucid for \
-    OMZP::aliases \
-    OMZP::colored-man-pages \
-    OMZP::copyfile \
-    OMZP::copypath \
-    OMZP::extract \
-    OMZP::urltools
+    OMZP::colored-man-pages
+    # OMZP::aliases \
+    # OMZP::copyfile \
+    # OMZP::copypath \
+    # OMZP::extract \
+    # OMZP::urltools \
+
 
 # Enable completion system
 autoload -Uz compinit && compinit
