@@ -150,10 +150,6 @@ zinit wait lucid for \
 zinit wait lucid for \
     OMZP::fzf
 
-# Conditional plugin loading - only if commands exist
-zinit wait lucid has'podman' for \
-    OMZP::podman
-
 _fix-omz-plugin() {
     [[ -f ./._zinit/teleid ]] || return 1
     local teleid="$(<./._zinit/teleid)"
