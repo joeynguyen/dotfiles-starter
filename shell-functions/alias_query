@@ -1,7 +1,7 @@
 ,alias_query() {
   if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     cat <<'EOF'
-Usage: ali [args...]
+Usage: ,alias_query
 
 Interactive picker for zsh aliases and custom functions.
 - Shows items in a 2-column fzf table: alias_name and alias_cmd.
@@ -41,11 +41,13 @@ EOF
     fi
 
     # Exclude common framework/plugin function sources to keep list focused.
-    if [[ "$source_path" == *"/oh-my-zsh/"* \
+    if [[ "$source_path" == *"${HOME}/.local/share/zinit/"* \
           || "$source_path" == *"/.zinit/"* \
+          || "$source_path" == "/.oh-my-zsh/"* \
           || "$source_path" == *"/.zplug/"* \
           || "$source_path" == *"/.antidote/"* \
-          || "$source_path" == *"/.zim/"* ]]; then
+          || "$source_path" == *"/.zim/"* \
+          || "$source_path" == *"${HOME}/.cache/"* ]]; then
       continue
     fi
 
@@ -97,12 +99,11 @@ EOF
   # Queue the selected command into zsh's editor buffer (next prompt), without executing it.
   print -z -- "${alias_name}${*:+ }${(j: :)${(q)@}}"
 }
-alias ali=,alias_query
 
 ,alias_source_query() {
   if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     cat <<'EOF'
-Usage: alisrc
+Usage: ,alias_source_query
 
 Interactive picker for zsh aliases and custom functions.
 - Shows items in a 2-column fzf table: alias_name and source_path.
@@ -164,11 +165,13 @@ EOF
     fi
 
     # Exclude common framework/plugin function sources to keep list focused.
-    if [[ "$source_path" == *"/oh-my-zsh/"* \
+    if [[ "$source_path" == *"${HOME}/.local/share/zinit/"* \
           || "$source_path" == *"/.zinit/"* \
+          || "$source_path" == "/.oh-my-zsh/"* \
           || "$source_path" == *"/.zplug/"* \
           || "$source_path" == *"/.antidote/"* \
-          || "$source_path" == *"/.zim/"* ]]; then
+          || "$source_path" == *"/.zim/"* \
+          || "$source_path" == *"${HOME}/.cache/"* ]]; then
       continue
     fi
 
@@ -230,5 +233,6 @@ EOF
 
   print -r -- "${item_paths[$alias_name]}"
 }
-alias alisrc=,alias_source_query
 
+# alias ali=,alias_query
+# alias alisrc=,alias_source_query
