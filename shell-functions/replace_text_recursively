@@ -1,7 +1,10 @@
 ,replace_text_recursively () {
   if [[ $# -ne 2 ]]; then
-    echo "Usage: replace_text <search_text> <replacement_text>"
-    echo "Example: replace_text 'setSignUpFormPayload' 'setSignUpMultiFormState'"
+    echo "This function requires two arguments:"
+    echo "  1. text to replace"
+    echo "  2. text to replace it with"
+    echo "Usage: ,replace_text_recursively <argument_1> <argument_2>"
+    echo "Example: ,replace_text_recursively 'setSignUpFormPayload' 'setSignUpMultiFormState'"
     return 1
   fi
 
