@@ -1,0 +1,52 @@
+,alias_query() {
+  if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    cat <<'EOF'
+Usage: ali [args...]
+
+Interactive alias picker for zsh aliases.
+- Shows aliases in a 2-column fzf table: alias_name and alias_cmd.
+- On selection, inserts the alias command into your next shell prompt (does not run it).
+- Any optional args are appended to the inserted command.
+EOF
+    return 0
+  fi
+
+  if ! command -v fzf >/dev/null 2>&1; then
+    echo "fzf is not installed."
+    return 1
+  fi
+
+  local selected alias_name alias_cmd
+  local table_format='%-28s  %s'
+  selected="$(
+    for alias_name alias_cmd in "${(@kv)aliases}"; do
+      printf "${table_format}\n" "${alias_name}" "${alias_cmd}"
+    done \
+      | sort \
+      | fzf \
+          --height=75% \
+          --layout=reverse \
+          --border \
+          --padding=1 \
+          --cycle \
+          --info=inline \
+          --prompt='alias > ' \
+          --header='alias_name                    alias_cmd'
+  )"
+
+  [[ -z "$selected" ]] && return 0
+
+  alias_name="${selected%%  *}"
+
+  alias_cmd="${aliases[$alias_name]}"
+
+  if [[ -z "${alias_cmd}" ]]; then
+    echo "Could not resolve alias: ${alias_name}"
+    return 1
+  fi
+
+  # Queue the selected command into zsh's editor buffer (next prompt), without executing it.
+  print -z -- "${alias_name}${*:+ }${(j: :)${(q)@}}"
+}
+alias ali=,alias_query
+
