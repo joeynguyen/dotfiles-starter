@@ -3,9 +3,11 @@
     cat <<'EOF'
 Usage: ali [args...]
 
-Interactive alias picker for zsh aliases.
-- Shows aliases in a 2-column fzf table: alias_name and alias_cmd.
-- On selection, inserts the alias command into your next shell prompt (does not run it).
+Interactive picker for zsh aliases and custom functions.
+- Shows items in a 2-column fzf table: alias_name and alias_cmd.
+- Aliases and functions both insert only the selected name.
+- Functions shown are loaded custom functions plus definitions found in dotfiles shell-functions.
+- On selection, inserts into your next shell prompt (does not run it).
 - Any optional args are appended to the inserted command.
 EOF
     return 0
@@ -16,10 +18,63 @@ EOF
     return 1
   fi
 
-  local selected alias_name alias_cmd
-  local table_format='%-28s  %s'
+  local selected alias_name alias_cmd source_path func_file func_name
+  local table_format='%-33s  %s'
+  local -A item_cmds
+
+  for alias_name alias_cmd in "${(@kv)aliases}"; do
+    item_cmds[$alias_name]="$alias_cmd"
+  done
+
+  for alias_name in ${(k)functions}; do
+    [[ -n "${item_cmds[$alias_name]}" ]] && continue
+
+    source_path="${functions_source[$alias_name]}"
+    # Skip most zsh internals/completion helpers.
+    [[ "$alias_name" == _* ]] && continue
+
+    # Include custom functions from dotfiles/home, or explicit comma-prefixed functions.
+    if [[ "$alias_name" != ,* \
+          && "$source_path" != "${DOTFILES_GIT_DIR}/"* \
+          && "$source_path" != "${HOME}/"* ]]; then
+      continue
+    fi
+
+    # Exclude common framework/plugin function sources to keep list focused.
+    if [[ "$source_path" == *"/oh-my-zsh/"* \
+          || "$source_path" == *"/.zinit/"* \
+          || "$source_path" == *"/.zplug/"* \
+          || "$source_path" == *"/.antidote/"* \
+          || "$source_path" == *"/.zim/"* ]]; then
+      continue
+    fi
+
+    if [[ -n "$source_path" ]]; then
+      item_cmds[$alias_name]="(function) ${source_path#${DOTFILES_GIT_DIR}/}"
+    else
+      item_cmds[$alias_name]="(function)"
+    fi
+  done
+
+  # Fallback: include function names declared in dotfiles shell-functions files.
+  if [[ -n "${DOTFILES_GIT_DIR}" && -d "${DOTFILES_GIT_DIR}/shell-functions" ]]; then
+    for func_file in "${DOTFILES_GIT_DIR}"/shell-functions/*; do
+      [[ -f "$func_file" && -r "$func_file" ]] || continue
+      func_name="$(
+        sed -nE '/^[[:space:]]*[^[:space:](]+[[:space:]]*\(\)[[:space:]]*\{/{
+          s/^[[:space:]]*([^[:space:](]+)[[:space:]]*\(\)[[:space:]]*\{.*/\1/
+          p
+          q
+        }' "$func_file"
+      )"
+      [[ -z "$func_name" ]] && continue
+      [[ -n "${item_cmds[$func_name]}" ]] && continue
+      item_cmds[$func_name]="(function) ${func_file#${DOTFILES_GIT_DIR}/}"
+    done
+  fi
+
   selected="$(
-    for alias_name alias_cmd in "${(@kv)aliases}"; do
+    for alias_name alias_cmd in "${(@kv)item_cmds}"; do
       printf "${table_format}\n" "${alias_name}" "${alias_cmd}"
     done \
       | sort \
@@ -37,13 +92,7 @@ EOF
   [[ -z "$selected" ]] && return 0
 
   alias_name="${selected%%  *}"
-
-  alias_cmd="${aliases[$alias_name]}"
-
-  if [[ -z "${alias_cmd}" ]]; then
-    echo "Could not resolve alias: ${alias_name}"
-    return 1
-  fi
+  [[ -z "$alias_name" ]] && return 1
 
   # Queue the selected command into zsh's editor buffer (next prompt), without executing it.
   print -z -- "${alias_name}${*:+ }${(j: :)${(q)@}}"
