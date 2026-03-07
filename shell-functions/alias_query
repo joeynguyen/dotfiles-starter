@@ -99,3 +99,136 @@ EOF
 }
 alias ali=,alias_query
 
+,alias_source_query() {
+  if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    cat <<'EOF'
+Usage: alisrc
+
+Interactive picker for zsh aliases and custom functions.
+- Shows items in a 2-column fzf table: alias_name and source_path.
+- Prints the selected item's source_path on Enter.
+EOF
+    return 0
+  fi
+
+  if ! command -v fzf >/dev/null 2>&1; then
+    echo "fzf is not installed."
+    return 1
+  fi
+
+  local selected alias_name source_path func_file func_name alias_file resolved_path
+  local table_format='%-33s  %s'
+  local -A item_paths
+  local -A alias_sources
+  local -a alias_source_files
+
+  # Build a best-effort map of alias name -> file path from dotfiles zsh files.
+  if [[ -n "${DOTFILES_GIT_DIR}" && -d "${DOTFILES_GIT_DIR}" ]]; then
+    alias_source_files=(
+      "${DOTFILES_GIT_DIR}/shell-aliases"(N)
+      "${DOTFILES_GIT_DIR}/dot-zshrc"(N)
+      "${DOTFILES_GIT_DIR}/aliases"/**/*(N.)
+      "${DOTFILES_GIT_DIR}/shell-functions"/**/*(N.)
+    )
+  fi
+
+  for alias_file in "${alias_source_files[@]}"; do
+    while IFS= read -r alias_name; do
+      [[ -n "$alias_name" && -z "${alias_sources[$alias_name]}" ]] || continue
+      alias_sources[$alias_name]="$alias_file"
+    done < <(
+      sed -nE 's/^[[:space:]]*alias[[:space:]]+([^=[:space:]]+)[[:space:]]*=.*/\1/p' "$alias_file"
+    )
+  done
+
+  for alias_name in "${(@k)aliases}"; do
+    if [[ -n "${alias_sources[$alias_name]}" ]]; then
+      item_paths[$alias_name]="${alias_sources[$alias_name]}"
+    else
+      item_paths[$alias_name]="(alias: source unknown)"
+    fi
+  done
+
+  for alias_name in ${(k)functions}; do
+    [[ -n "${item_paths[$alias_name]}" ]] && continue
+
+    source_path="${functions_source[$alias_name]}"
+    # Skip most zsh internals/completion helpers.
+    [[ "$alias_name" == _* ]] && continue
+
+    # Include custom functions from dotfiles/home, or explicit comma-prefixed functions.
+    if [[ "$alias_name" != ,* \
+          && "$source_path" != "${DOTFILES_GIT_DIR}/"* \
+          && "$source_path" != "${HOME}/"* ]]; then
+      continue
+    fi
+
+    # Exclude common framework/plugin function sources to keep list focused.
+    if [[ "$source_path" == *"/oh-my-zsh/"* \
+          || "$source_path" == *"/.zinit/"* \
+          || "$source_path" == *"/.zplug/"* \
+          || "$source_path" == *"/.antidote/"* \
+          || "$source_path" == *"/.zim/"* ]]; then
+      continue
+    fi
+
+    if [[ -n "$source_path" ]]; then
+      if [[ "$source_path" == /* ]]; then
+        resolved_path="$source_path"
+      elif [[ "$source_path" == "~/"* ]]; then
+        resolved_path="${HOME}/${source_path#~/}"
+      elif [[ -n "${DOTFILES_GIT_DIR}" && -f "${DOTFILES_GIT_DIR}/$source_path" ]]; then
+        resolved_path="${DOTFILES_GIT_DIR}/$source_path"
+      else
+        resolved_path="$source_path"
+      fi
+      item_paths[$alias_name]="$resolved_path"
+    else
+      item_paths[$alias_name]="(function)"
+    fi
+  done
+
+  # Fallback: include function names declared in dotfiles shell-functions files.
+  if [[ -n "${DOTFILES_GIT_DIR}" && -d "${DOTFILES_GIT_DIR}/shell-functions" ]]; then
+    for func_file in "${DOTFILES_GIT_DIR}"/shell-functions/*; do
+      [[ -f "$func_file" && -r "$func_file" ]] || continue
+      func_name="$(
+        sed -nE '/^[[:space:]]*[^[:space:](]+[[:space:]]*\(\)[[:space:]]*\{/{
+          s/^[[:space:]]*([^[:space:](]+)[[:space:]]*\(\)[[:space:]]*\{.*/\1/
+          p
+          q
+        }' "$func_file"
+      )"
+      [[ -z "$func_name" ]] && continue
+      [[ -n "${item_paths[$func_name]}" ]] && continue
+      item_paths[$func_name]="$func_file"
+    done
+  fi
+
+  selected="$(
+    for alias_name source_path in "${(@kv)item_paths}"; do
+      printf "${table_format}\n" "${alias_name}" "${source_path}"
+    done \
+      | sort \
+      | fzf \
+          --height=75% \
+          --layout=reverse \
+          --border \
+          --padding=1 \
+          --cycle \
+          --delimiter='  +' \
+          --nth=1 \
+          --info=inline \
+          --prompt='source > ' \
+          --header='alias_name                    source_path'
+  )"
+
+  [[ -z "$selected" ]] && return 0
+
+  alias_name="${selected%%  *}"
+  [[ -z "$alias_name" ]] && return 1
+
+  print -r -- "${item_paths[$alias_name]}"
+}
+alias alisrc=,alias_source_query
+
