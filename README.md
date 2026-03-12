@@ -55,7 +55,22 @@ Recommendation: prefix your long/less-often-used aliases with a comma, e.g. `,gi
 
 ## Ghostty
 
-<kbd>Command+Shift+P</kbd> - activate Command Palette
+### Features
+
+1. Command Palette - to activate, press <kbd>Command+Shift+P</kbd>
+1. Customizable shortcuts/keybinds
+   - actions can be [chained](https://ghostty.org/docs/install/release-notes/1-3-0#key-tables-chained-keybinds-and-catch_all) -
+1. Built-in themes
+1. MacOS [AppleScript support](https://ghostty.org/docs/features/applescript)
+   - PR opportunity - someone please figure out how to use this and create an example script. Idea:
+     - open multiple tabs and splits for a project
+     - rename tab titles and split titles
+     - navigate to first tab in the window
+1. Split [Drag and Drop](<https://ghostty.org/docs/install/release-notes/1-3-0#split-drag-and-drop-(macos)>)
+
+### Ghostty CLI
+
+\*only works in Ghostty app
 
 ```sh
 ghostty --help
