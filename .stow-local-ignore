@@ -1,14 +1,14 @@
-# Stow docs - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
+# Documentation - https://www.gnu.org/software/stow/manual/stow.html#Types-And-Syntax-Of-Ignore-Lists
 
 # MacOS file common in many folders
 .DS_Store
+\.swp$
 
 # common git repo files
-^/README.*
-^/LICENSE.*
-.git
+README.*
+LICENSE.*
 .github
-.gitignore
+.git
 sonar-project.properties
 
 # homebrew
@@ -17,13 +17,7 @@ Brewfile
 # stow configs for this repo
 .stowrc
 
-# docs
-presentation-notes.md
-
-# zshrc-sourced files
-zsh-env-variables
-aliases
-shell-aliases
-shell-functions
-
+# other files we don't want stow to copy to $HOME
 my-env-secrets-example
+docs
+aliases
