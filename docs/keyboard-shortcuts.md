@@ -32,12 +32,10 @@
 
 ## Process management
 
-- <kbd>Ctrl+c</kbd> - sends the `SIGINT` signal to interrupt the foreground process.  By default, it should gracefully stop the process.
+- <kbd>Ctrl+c</kbd> - sends the `SIGINT` signal to interrupt the foreground process. By default, it should gracefully stop the process.
 - <kbd>Ctrl+d</kbd> - exit the shell, similar to the `exit` command
-- <kbd>Ctrl+z</kbd> - suspends the current foreground process.  A list of background processes can be seen by typing `jobs`.
+- <kbd>Ctrl+z</kbd> - suspends the current foreground process. A list of background processes can be seen by typing `jobs`.
   - To put to the process type back into the foreground, `fg [process_name]`, e.g. `fg vim`, or type `fg %[process_number]`, e.g. `fg %1`
-  - To resume the suspended job but keep it in the background, type `bg ...`.  This keeps it in the background so you can keep using the command line but you won't be able to interact with it like using <kbd>Ctrl+c</kbd> to kill the command without either putting it in the foreground or typing `kill %[process_number]` / `kill [process_name]`
-
+  - To resume the suspended job but keep it in the background, type `bg ...`. This keeps it in the background so you can keep using the command line but you won't be able to interact with it like using <kbd>Ctrl+c</kbd> to kill the command without either putting it in the foreground or typing `kill %[process_number]` / `kill [process_name]`
 
 More shortcuts - https://skorks.com/2009/09/bash-shortcuts-for-maximum-productivity/
-
