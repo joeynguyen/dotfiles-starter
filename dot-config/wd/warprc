@@ -1,0 +1,2 @@
+# this file does nothing unless you enable the zsh wd plugin in dot-zshrc
+conf:~/.config

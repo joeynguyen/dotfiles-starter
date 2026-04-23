@@ -6,12 +6,13 @@ final_space = true
   template = '❯❯ '
   foreground = 'magenta'
   background = 'transparent'
-#
+
+# https://ohmyposh.dev/docs/configuration/transient
 # [transient_prompt]
 #   template = '❯ '
 #   background = 'transparent'
 #   foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}#5FFF3F{{end}}']
-#
+
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
@@ -43,7 +44,6 @@ final_space = true
     style = 'plain'
     template = '  {{ .Full }} '
     foreground = '#6CA35E'
-    powerline_symbol = ''
     background = 'transparent'
     type = 'node'
 
@@ -51,7 +51,6 @@ final_space = true
     style = 'plain'
     template = '  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}({{ .Venv }}) {{ end }}{{ .Full }}{{ end }} '
     foreground = '#100e23'
-    powerline_symbol = ''
     background = '#906cff'
     type = 'python'
 
@@ -59,7 +58,6 @@ final_space = true
     style = 'plain'
     template = ' 󱈙 {{ .Full }} '
     foreground = '#906cff'
-    powerline_symbol = ''
     background = 'transparent'
     type = 'kotlin'
 
@@ -67,7 +65,6 @@ final_space = true
     style = 'plain'
     template = '  {{ .Full }} '
     foreground = '#7FD5EA'
-    powerline_symbol = ''
     background = 'transparent'
     type = 'go'
 
@@ -77,9 +74,9 @@ final_space = true
 
   [[blocks.segments]]
     style = 'powerline'
-    template = ' ⎈ {{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}} '
+    template = ' 󱃾 {{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}} '
     foreground = '#ebcc34'
-    powerline_symbol = ''
+    powerline_symbol = ' ' # no symbol
     background = 'transparent'
     type = 'kubectl'
 
