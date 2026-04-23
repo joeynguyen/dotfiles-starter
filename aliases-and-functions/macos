@@ -17,3 +17,8 @@ alias ,show_disks='diskutil list'
 alias ,show_files="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
 alias ,hide_files="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
+,list_all_ca_certificates() {
+    security find-certificate -a /Library/Keychains/System.keychain 2>/dev/null \
+        | grep '"labl"' \
+        | sed -E 's/.*"labl"<blob>="([^"]*)".*/\1/'
+}

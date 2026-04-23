@@ -2,13 +2,16 @@
 
 # MacOS file common in many folders
 .DS_Store
-\.swp$
+
+# vim swap files
+.*\.swp$
 
 # common git repo files
 README.*
 LICENSE.*
-.github
 .git
+.github
+.gitignore
 sonar-project.properties
 
 # homebrew
@@ -18,6 +21,10 @@ Brewfile
 .stowrc
 
 # other files we don't want stow to copy to $HOME
-my-env-secrets-example
+assets
 docs
-aliases
+scripts
+my-env-secrets-example
+aliases-and-functions
+shell-keybindings
+shell-env-variables
