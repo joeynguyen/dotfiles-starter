@@ -1,0 +1,40 @@
+# export EDITOR=vim
+
+# add this variable if you're on a corporate network with a proxy (like Zscaler) that is preventing you from running 'npm install'
+# export NODE_EXTRA_CA_CERTS=$HOME/path/to/Zscaler/cert.pem
+
+# this env variable does nothing unless you enable the zsh wd plugin in dot-zshrc
+export WD_CONFIG=$HOME/.config/wd/warprc
+
+### update PATH variable ###
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's local bin if it exists (different location)
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's cargo package manager's bin if it exists
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# set PATH so it includes user's Go package manager's bin if it exists
+if [ -d "$HOME/.local/go/bin" ] ; then
+    PATH="$HOME/.local/go/bin:$PATH"
+fi
+
+# set PATH so it includes user's GOPATH's bin if it exists
+if [ -d "$HOME/go" ] ; then
+    export GOPATH=$HOME/go
+
+    if [ -d "$GOPATH/bin" ] ; then
+        PATH="$GOPATH/bin:$PATH"
+    fi
+fi
+
+export PATH

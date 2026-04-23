@@ -1,0 +1,18 @@
+# uncomment the line below if you want to use Control+Space for zsh-autosuggest
+# or bind it to some other shortcut (the caret symbol refers to the Control key)
+# bindkey '^ ' autosuggest-accept
+
+# Ctrl+x then p → Ghostty project startup (only if shell-functions/ghostty is loaded)
+if (( ${+functions[,ghosttyProjectStartup]} )); then
+  _ghostty-project-startup-zle() {
+    BUFFER=""
+    zle -I
+    ,ghosttyProjectStartup
+    zle reset-prompt
+  }
+  zle -N _ghostty-project-startup-zle
+  bindkey -M emacs '^Xp' _ghostty-project-startup-zle
+  bindkey -M viins '^Xp' _ghostty-project-startup-zle
+  bindkey -M vicmd '^Xp' _ghostty-project-startup-zle
+fi
+
