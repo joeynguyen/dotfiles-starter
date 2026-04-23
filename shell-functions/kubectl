@@ -1,0 +1,17 @@
+# Wrap kubectl with kubecolor while preserving kubectl completions
+kubectl() {
+  if (( $+commands[kubecolor] )); then
+    command kubecolor "$@"
+  else
+    command kubectl "$@"
+  fi
+}
+
+if (( $+functions[_kubectl] )); then
+    # Make sure the completion system knows the wrapper is a kubectl‑like command
+    # Re‑associate the already‑loaded completion definitions with the
+    # wrapper function.  The `_kubectl` helper is what the completion
+    # script registers for the `kubectl` command.
+    compdef _kubectl kubectl
+fi
+

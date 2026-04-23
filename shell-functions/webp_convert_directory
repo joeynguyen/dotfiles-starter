@@ -1,4 +1,5 @@
 # need to install the `webp` package - `brew install webp`
+# convert all image files in the current directory to WebP format
 ,webp_convert_directory() {
 
   PARAMS=('-m 6 -q 70 -mt -af -progress')

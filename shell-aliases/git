@@ -178,8 +178,7 @@ alias ,git_rebase_last_two_commits='git rebase -i HEAD~2'
   esac
 }
 
-,git_browser_url() {
-  # Get the remote URL from the Git repository
+,git_browser_url_copy() {
   remote_url=$(git remote get-url origin);
 
   if [ -z "$remote_url" ]; then
@@ -187,7 +186,6 @@ alias ,git_rebase_last_two_commits='git rebase -i HEAD~2'
     return 1;
   fi;
 
-  # Convert the Git URL to the browser URL (GitHub, GitLab, etc.)
   if [[ "$remote_url" =~ github.com ]]; then
     browser_url="https://github.com/$(echo "$remote_url" | sed 's/.*github.com[:\/]\(.*\)\.git/\1/')";
   elif [[ "$remote_url" =~ gitlab.com ]]; then
@@ -197,28 +195,8 @@ alias ,git_rebase_last_two_commits='git rebase -i HEAD~2'
     return 1;
   fi;
 
-  # Output the browser URL
-  echo "Browser URL: $browser_url"
-
-  # Ask the user if they want to open the URL in their browser
-  read -r "choice?Do you want to open this URL in your browser? (y/n): "
-
-  case "$choice" in
-    [Yy]*)
-      # Open the URL in the default browser
-      if command -v xdg-open &> /dev/null; then
-        xdg-open "$browser_url"  # Linux
-      elif command -v open &> /dev/null; then
-        open "$browser_url"  # macOS
-      else
-        echo "Unable to open the browser. Please open the URL manually."
-      fi
-      ;;
-    [Nn]*)
-      echo "Okay, not opening the URL."
-      ;;
-    *)
-      echo "Invalid choice. Please answer 'y' or 'n'."
-      ;;
-  esac
+  # remove the newline character at the end before copying
+  echo "$browser_url" | tr -d '\n' | pbcopy;
+  echo "copied '$browser_url' to clipboard"
 }
+

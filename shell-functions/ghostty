@@ -1,0 +1,37 @@
+,ghosttyProjectStartup() {
+  [[ -n "${DOTFILES_GIT_DIR}" ]] || {
+    echo "DOTFILES_GIT_DIR is not set."
+    return 1
+  }
+  local dir="${DOTFILES_GIT_DIR}/scripts/ghostty"
+  [[ -d "$dir" ]] || {
+    echo "Missing directory: $dir"
+    return 1
+  }
+  command -v fzf >/dev/null 2>&1 || {
+    echo "fzf is not installed."
+    return 1
+  }
+
+  local list
+  list="$(find "$dir" -maxdepth 1 -type f -name '*.applescript' -print 2>/dev/null)"
+  local -a scripts
+  scripts=(${(f)list})
+  (( ${#scripts} )) || {
+    echo "No .applescript files in $dir"
+    return 1
+  }
+
+  local selected
+  selected="$(
+    printf '%s\n' "${scripts[@]:t:r}" \
+      | LC_ALL=C sort -u \
+      | fzf \
+          --prompt '⚡ ' \
+          --header $'Select a project' \
+          --info inline
+  )" || return 1
+
+  [[ -n "$selected" ]] || return 1
+  osascript "${dir}/${selected}.applescript"
+}

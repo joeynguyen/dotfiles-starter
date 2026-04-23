@@ -1,0 +1,9 @@
+# make zsh `history [number]` behave like in bash
+history() {
+  if [[ "$1" =~ '^[0-9]+$' ]]; then
+    fc -l -$1
+  else
+    builtin history "$@"
+  fi
+}
+# alias h=history

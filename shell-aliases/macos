@@ -1,0 +1,19 @@
+# in this file, add aliases that utilize MacOS-specific CLI tools
+# comment out or delete the contents of this file if you're on Linux
+
+alias ,copy_branch='git branch --show-current | tr -d "\n" | pbcopy'
+# alias cpbranch=',copy_branch'
+alias ,copy_path='pwd | tr -d "\n" | pbcopy'
+# alias cppath=,copy_path
+alias ,copy_dirname='basename "$PWD" | tr -d "\n" | pbcopy'
+# alias cpdir=,copy_dirname
+
+alias ,speedtest='networkQuality'
+
+# show info about hard disks
+alias ,show_disks='diskutil list'
+
+# show/hide hidden files in Finder
+alias ,show_files="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias ,hide_files="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+

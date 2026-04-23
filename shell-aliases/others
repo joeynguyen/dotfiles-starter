@@ -1,0 +1,6 @@
+# alias rm='rm -i' # always ask for confirmation when deleting
+alias ,reload="source ~/.zshrc"
+# alias reload=,reload
+alias ,disk_space='ncdu'
+
+

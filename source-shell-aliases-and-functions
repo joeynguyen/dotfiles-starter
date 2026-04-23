@@ -1,0 +1,13 @@
+# source all files in children directories
+for f in ${DOTFILES_GIT_DIR}/shell-functions/*; do
+  if [[ -f "$f" && -r "$f" ]]; then
+    source "$f"
+  fi
+done
+
+for f in ${DOTFILES_GIT_DIR}/shell-aliases/*; do
+  if [[ -f "$f" && -r "$f" ]]; then
+    source "$f"
+  fi
+done
+

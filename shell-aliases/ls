@@ -1,0 +1,19 @@
+# if eza is installed, alias `ls` to it
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza'
+  # alias l='eza -alh --group-directories-first' # lists everything with directories first
+  # alias lsa='eza -a'
+  # alias lsal='eza -alh'
+  # alias lsg='eza --git-ignore'
+  # alias ll='eza -alh --group-directories-first --icons=always' # lists everything with directories first
+  # alias ld='eza -lD --icons=always' # lists only directories (no files)
+  # alias lf='eza -lf --icons=always' # lists only files (no directories)
+  # alias lt='eza -alh --sort=modified' # lists everything sorted by time updated
+  # alias lss='eza -alh --sort=size --reverse' # lists everything sorted by file size, largest first
+  # alias lsst='eza -alh --sort=size --reverse --total-size' # like lss; directory sizes are totals of contents (unix only)
+  alias ,ls_tree='eza --tree --icons=auto --ignore-glob node_modules'
+  alias ,ls_treegit='eza --tree --icons=auto --git-ignore'
+  # alias tree=,ls_tree
+  # alias treegit=,ls_treegit
+fi
+

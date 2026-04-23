@@ -1,0 +1,6 @@
+,list_all_ca_certificates() {
+    security find-certificate -a /Library/Keychains/System.keychain 2>/dev/null \
+        | grep '"labl"' \
+        | sed -E 's/.*"labl"<blob>="([^"]*)".*/\1/'
+}
+

@@ -1,6 +1,6 @@
-# ohmyzsh's extract (alias x) plugin is a more robust implementation of this
+# ohmyzsh's 'extract' plugin is a more robust implementation of this
 # # ex - archive extractor
-# # usage: ex <file>
+# # usage: ,ex <file>
 ,ex ()
 {
   if [ -f $1 ] ; then
@@ -22,5 +22,5 @@
     echo "'$1' is not a valid file"
   fi
 }
-alias ex=,ex
+# alias ex=,ex
 

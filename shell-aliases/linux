@@ -1,0 +1,7 @@
+# imitates MacOS's pbcopy/pbpaste tools (useful for sharing shell functions/aliases between operating systems)
+# alias pbcopy='xclip -selection clipboard'
+# alias pbpaste='xclip -selection clipboard -o'
+
+# alias ,cpath='pwd | pbcopy'
+# alias cpath=,cpath
+

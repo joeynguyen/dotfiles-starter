@@ -1,0 +1,9 @@
+# inspired by OhMyZsh's 'take' command
+,mkdircd() {
+    mkdir $* && cd $_
+    # would also work: mkdir $1 && cd $_
+    # would also work: mkdir $1 && cd $1
+}
+# alias take=,mkdircd # if you're used to OhMyZsh
+# alias mkdircd=,mkdircd
+# alias mkcd=,mkdircd

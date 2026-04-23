@@ -1,0 +1,16 @@
+if ! command -v __zoxide_z >/dev/null 2>&1; then
+  # check zoxide's ranking for input string
+  alias ,zoxide_query='zoxide query -i'
+  alias ,zoxide_rankings='zoxide query -i'
+  # alias zq=,zoxide_query
+  # alias zr=,zoxide_rankings
+
+  if [[ "${ZOXIDE_CMD_OVERRIDE:-}" == "cd" ]]; then
+    alias ,cd_query='zoxide query -i'
+    alias ,cd_rankings='zoxide query -i'
+    # alias cdq=,cd_query
+    # alias cdr=,cd_rankings
+  fi
+
+fi
+
