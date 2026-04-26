@@ -19,7 +19,6 @@ DOTFILES_GIT_DIR=~/git/dotfiles
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
-HISTTIMEFORMAT="%Y-%m-%d %T "
 # history file location
 HISTFILE="$HOME/.zsh_history"
 # maximum number of history entries in memory
