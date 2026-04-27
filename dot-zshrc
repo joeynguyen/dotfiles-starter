@@ -215,11 +215,8 @@ source "${DOTFILES_GIT_DIR}/shell-env-variables"
 [[ -f ~/.my-env-secrets ]] && source ~/.my-env-secrets
 
 ### Load aliases and functions ###
-for f in ${DOTFILES_GIT_DIR}/aliases-and-functions/*; do
-  # source all files in children directories
-  if [[ -f "$f" && -r "$f" ]]; then
-    source "$f"
-  fi
+for f in ${DOTFILES_GIT_DIR}/aliases-and-functions/*(N.); do
+  source "$f"
 done
 
 ### Load keybindings (this should go after shell-aliases because keybindings may reference defined functions/aliases) ###
