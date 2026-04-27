@@ -227,7 +227,13 @@ source "${DOTFILES_GIT_DIR}/shell-keybindings"
 
 # start OhMyPosh - https://ohmyposh.dev/
 if [[ -f "$HOME/.config/ohmyposh/ohmyposh.toml" ]]; then
-  eval "$(oh-my-posh init zsh --config "$HOME/.config/ohmyposh/ohmyposh.toml")"
+  _omp_cache="$HOME/.cache/ohmyposh-init.zsh"
+  if [[ ! -f "$_omp_cache" || "$HOME/.config/ohmyposh/ohmyposh.toml" -nt "$_omp_cache" ]]; then
+    mkdir -p "$HOME/.cache"
+    oh-my-posh init zsh --config "$HOME/.config/ohmyposh/ohmyposh.toml" > "$_omp_cache"
+  fi
+  source "$_omp_cache"
+  unset _omp_cache
 fi
 
 ### for fun, include ASCII art on startup ###
