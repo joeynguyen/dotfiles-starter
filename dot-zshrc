@@ -29,7 +29,7 @@ SAVEHIST=100000
 unsetopt share_history
 # Append to ~/.zsh_history instead of overwriting it -- this stops terminals
 # from overwriting one another's histories.
-setopt INC_APPEND_HISTORY
+setopt INC_APPEND_HISTORY_TIME
 # Setting the extended_history records the timestamp of each command in HISTFILE (along with the actual command)
 setopt EXTENDED_HISTORY
 # ensures all previous lines matching the current command is removed from history before the current command is saved
