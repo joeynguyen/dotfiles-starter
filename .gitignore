@@ -1,2 +1,6 @@
 # MacOS file common in many folders
 .DS_Store
+
+# these files contain secrets so we don't want to commit them to version control
+dot-npmrc
+dot-my-env-secrets

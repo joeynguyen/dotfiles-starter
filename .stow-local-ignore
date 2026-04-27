@@ -25,5 +25,5 @@ docs
 scripts
 my-env-secrets-example
 aliases-and-functions
-shell-keybindings
-shell-env-variables
+keybindings
+env-variables

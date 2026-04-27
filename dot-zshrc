@@ -210,7 +210,7 @@ zinit wait lucid for \
 ##########################################
 
 ### Load environment variables ###
-source "${DOTFILES_GIT_DIR}/shell-env-variables"
+source "${DOTFILES_GIT_DIR}/env-variables"
 # refer to README.md on creating this secrets file and, IMPORTANTLY!, ensure it isn't committed to your dotfiles repo
 [[ -f ~/.my-env-secrets ]] && source ~/.my-env-secrets
 
@@ -220,7 +220,7 @@ for f in ${DOTFILES_GIT_DIR}/aliases-and-functions/*(N.); do
 done
 
 ### Load keybindings (this should go after shell-aliases because keybindings may reference defined functions/aliases) ###
-source "${DOTFILES_GIT_DIR}/shell-keybindings"
+source "${DOTFILES_GIT_DIR}/keybindings"
 
 # start OhMyPosh - https://ohmyposh.dev/
 if [[ -f "$HOME/.config/ohmyposh/ohmyposh.toml" ]]; then
