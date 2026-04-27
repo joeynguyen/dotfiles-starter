@@ -145,6 +145,8 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey '^[[A' history-beginning-search-backward-end
 bindkey '^[[B' history-beginning-search-forward-end
 
+# Initialize completion system (must run before cdreplay)
+autoload -Uz compinit && compinit
 # replay all cached completions
 zinit cdreplay -q
 
