@@ -237,7 +237,6 @@ fi
 
 # uncomment the lines below if you want to add ASCII art on new shell window startup
 # cat "${DOTFILES_GIT_DIR}/assets/ascii-rocket"
-# cat "${DOTFILES_GIT_DIR}/assets/ascii-slingshot"
 # echo # add blank line after ASCII and before prompt
 
 # Show startup profiling (comment out after optimization)
