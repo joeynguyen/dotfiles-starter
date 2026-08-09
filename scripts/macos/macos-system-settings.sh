@@ -154,6 +154,39 @@ configure_minimize_effect() {
   echo "${GREEN}Updated Dock minimize effect.${RESET}"
 }
 
+configure_double_click_titlebar() {
+  prompt_choice \
+    "Desktop & Dock > Double-click a window's title bar to" \
+    "Keep current setting" \
+    "Fill" \
+    "Zoom (Maximize)" \
+    "Minimize" \
+    "Do nothing"
+
+  case "$REPLY" in
+    "Keep current setting") return 0 ;;
+    "Fill")
+      defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Fill"
+      defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+      ;;
+    "Zoom (Maximize)")
+      defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Maximize"
+      defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+      ;;
+    "Minimize")
+      defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Minimize"
+      defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
+      ;;
+    "Do nothing")
+      defaults write NSGlobalDomain AppleActionOnDoubleClick -string "None"
+      defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+      ;;
+  esac
+
+  refresh_system_settings
+  echo "${GREEN}Updated title bar double-click behavior.${RESET}"
+}
+
 configure_mru_spaces() {
   ask_keep_enable_disable "Desktop & Dock > Mission Control > Automatically rearrange Spaces based on most recent use"
 
@@ -237,6 +270,7 @@ main() {
       "Trackpad: Natural scrolling" \
       "Dock: Automatically hide and show the Dock" \
       "Dock: Minimize windows using" \
+      "Desktop & Dock: Double-click window title bar" \
       "Mission Control: Automatically rearrange Spaces" \
       "Mission Control: Group windows by application" \
       "Mission Control: Drag windows to top of screen" \
@@ -248,6 +282,7 @@ main() {
       "Trackpad: Natural scrolling") configure_natural_scrolling ;;
       "Dock: Automatically hide and show the Dock") configure_dock_autohide ;;
       "Dock: Minimize windows using") configure_minimize_effect ;;
+      "Desktop & Dock: Double-click window title bar") configure_double_click_titlebar ;;
       "Mission Control: Automatically rearrange Spaces") configure_mru_spaces ;;
       "Mission Control: Group windows by application") configure_group_windows_by_app ;;
       "Mission Control: Drag windows to top of screen") configure_drag_to_mission_control ;;
