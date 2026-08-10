@@ -225,18 +225,14 @@ done
 source "${DOTFILES_GIT_DIR}/keybindings"
 
 # start OhMyPosh - https://ohmyposh.dev/
-if [[ -f "$HOME/.config/ohmyposh/ohmyposh.toml" ]]; then
-  _omp_cache="$HOME/.cache/ohmyposh-init.zsh"
-  if [[ ! -f "$_omp_cache" || "$HOME/.config/ohmyposh/ohmyposh.toml" -nt "$_omp_cache" ]]; then
-    mkdir -p "$HOME/.cache"
-    oh-my-posh init zsh --config "$HOME/.config/ohmyposh/ohmyposh.toml" > "$_omp_cache"
-  fi
-  if ! source "$_omp_cache" 2>/dev/null; then
-    # if sourcing failed (e.g. internal cache was cleared), regenerate and try again
-    oh-my-posh init zsh --config "$HOME/.config/ohmyposh/ohmyposh.toml" > "$_omp_cache"
-    source "$_omp_cache"
-  fi
-  unset _omp_cache
+_omp_config="$HOME/.config/ohmyposh/ohmyposh.toml"
+if [[ -f "$_omp_config" ]] && command -v oh-my-posh >/dev/null; then
+  # stop Python environment managers from adding their own prompt text on top of oh-my-posh
+  # which can clash with the Python segment we've defined in dot-config/ohmyposh/ohmyposh.toml
+  export VIRTUAL_ENV_DISABLE_PROMPT=1
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  export POSH_CONFIG="$_omp_config"
+  eval "$(oh-my-posh init zsh)"
 fi
 
 
