@@ -112,7 +112,7 @@ Refer to [docs/keyboard-shortcuts.md](docs/keyboard-shortcuts.md) for a list of 
 
 Check out the Ghostty terminal which has been preconfigured in this repo in the [Ghostty config file](./dot-config/ghostty/config). Read more about it and install it from the official website: https://ghostty.org
 
-Optional: for the best experience, download the JetBrains Mono font from https://www.jetbrains.com/lp/mono. Install it by opening the font file and choose Install. Then uncomment the line below in the _dot-config/ghostty/config_:
+Optional: for the best experience, download the JetBrains Mono font from https://www.jetbrains.com/lp/mono. Install it by opening the font file and choose Install. Then uncomment the line below in the [Ghostty config file](./dot-config/ghostty/config):
 
 `font-family = JetBrains Mono`
 
